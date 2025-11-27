@@ -1,0 +1,16 @@
+{
+  "name": "web-gallery",
+  "version": "1.0.0",
+  "description": "Full stack web gallery application",
+  "scripts": {
+    "install-backend": "cd backend && npm install",
+    "install-frontend": "cd frontend && npm install",
+    "install-all": "npm run install-backend && npm run install-frontend"
+  },
+  "dependencies": {
+    "mongoose": "^7.5.0",
+    "cloudinary": "^1.41.0",
+    "busboy": "^1.6.0"
+  }
+}
+

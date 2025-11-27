@@ -1,7 +1,16 @@
 import { useState } from 'react'
 import axios from 'axios'
 
-const API_URL = 'http://localhost:5000/api'
+const API_URL = import.meta.env.VITE_API_URL || '/api'
+// For local dev, use proxy. For production, use full URL or relative path
+const getImageUrl = (image) => {
+  if (image.url) {
+    // Cloudinary URL (for Vercel deployment)
+    return image.url;
+  }
+  // Local file path - use relative path (proxy handles it)
+  return `/${image.path}`;
+};
 
 function ImageGallery({ images, onDelete }) {
   const [downloading, setDownloading] = useState(null)
@@ -48,10 +57,14 @@ function ImageGallery({ images, onDelete }) {
           >
             <div className="relative aspect-square bg-gray-100">
               <img
-                src={`http://localhost:5000/${image.path}`}
+                src={getImageUrl(image)}
                 alt={image.originalName}
                 className="w-full h-full object-cover"
                 loading="lazy"
+                onError={(e) => {
+                  console.error('Image load error:', image.path || image.url);
+                  e.target.style.display = 'none';
+                }}
               />
             </div>
             <div className="p-4">

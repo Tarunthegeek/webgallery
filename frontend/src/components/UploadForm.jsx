@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import axios from 'axios'
 
-const API_URL = 'http://localhost:5000/api'
+const API_URL = import.meta.env.VITE_API_URL || '/api'
 
 function UploadForm({ onUploadSuccess }) {
   const [file, setFile] = useState(null)
@@ -34,11 +34,7 @@ function UploadForm({ onUploadSuccess }) {
       setError(null)
       setSuccess(false)
 
-      await axios.post(`${API_URL}/upload`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
+      await axios.post(`${API_URL}/upload`, formData)
 
       setSuccess(true)
       setFile(null)
